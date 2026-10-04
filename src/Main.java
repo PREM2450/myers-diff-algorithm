@@ -63,8 +63,6 @@ public class Main {
         int offset = max + 1;
 
         int[] v = new int[2 * max + 3];
-        Arrays.fill(v, 0);
-
         List<int[]> trace = new ArrayList<>();
 
         int finalD = 0;
@@ -95,13 +93,15 @@ public class Main {
                 v[index] = x;
 
                 if (x >= n && y >= m) {
-                    trace.add(Arrays.copyOf(v, v.length));
+                    trace.add(Arrays.copyOfRange(
+                            v, offset - d, offset + d + 1));
                     finalD = d;
                     break outer;
                 }
             }
 
-            trace.add(Arrays.copyOf(v, v.length));
+            trace.add(Arrays.copyOfRange(
+                    v, offset - d, offset + d + 1));
         }
 
         List<Edit> reversed = new ArrayList<>();
@@ -111,18 +111,20 @@ public class Main {
 
         for (int d = finalD; d > 0; d--) {
             int[] previous = trace.get(d - 1);
+            int previousD = d - 1;
 
             int k = x - y;
             int previousK;
 
             if (k == -d || (k != d
-                    && previous[offset + k - 1] < previous[offset + k + 1])) {
+                    && previous[(k - 1) + previousD]
+                    < previous[(k + 1) + previousD])) {
                 previousK = k + 1;
             } else {
                 previousK = k - 1;
             }
 
-            int previousX = previous[offset + previousK];
+            int previousX = previous[previousK + previousD];
             int previousY = previousX - previousK;
 
             while (x > previousX && y > previousY) {
@@ -185,8 +187,6 @@ public class Main {
         int offset = max + 1;
 
         int[] v = new int[2 * max + 3];
-        Arrays.fill(v, 0);
-
         List<int[]> trace = new ArrayList<>();
 
         int finalD = 0;
@@ -217,13 +217,15 @@ public class Main {
                 v[index] = x;
 
                 if (x >= n && y >= m) {
-                    trace.add(Arrays.copyOf(v, v.length));
+                    trace.add(Arrays.copyOfRange(
+                            v, offset - d, offset + d + 1));
                     finalD = d;
                     break outer;
                 }
             }
 
-            trace.add(Arrays.copyOf(v, v.length));
+            trace.add(Arrays.copyOfRange(
+                    v, offset - d, offset + d + 1));
         }
 
         List<Edit> reversed = new ArrayList<>();
@@ -233,18 +235,20 @@ public class Main {
 
         for (int d = finalD; d > 0; d--) {
             int[] previous = trace.get(d - 1);
+            int previousD = d - 1;
 
             int k = x - y;
             int previousK;
 
             if (k == -d || (k != d
-                    && previous[offset + k - 1] < previous[offset + k + 1])) {
+                    && previous[(k - 1) + previousD]
+                    < previous[(k + 1) + previousD])) {
                 previousK = k + 1;
             } else {
                 previousK = k - 1;
             }
 
-            int previousX = previous[offset + previousK];
+            int previousX = previous[previousK + previousD];
             int previousY = previousX - previousK;
 
             while (x > previousX && y > previousY) {
